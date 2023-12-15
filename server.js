@@ -12,6 +12,7 @@ app.use(bodyParser.json())
 
 app.get('/', function(req, res){
     res.send('Deu bom')
+    res.sendStatus(200)
 })
 
 app.get('/webhook', function(req, res) {
