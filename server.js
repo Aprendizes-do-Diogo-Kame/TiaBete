@@ -44,7 +44,7 @@ app.post("/webhook", function (request, response) {
       console.log(messageContent);
       msgText = "Mensagem recebida."
       chat.text.send(ourNumberId, messageFrom, msgText);
-    } if(messageType == "audio"){
+    } else if(messageType == "audio"){
       msgText = "Mensagem de audio recebida."
       chat.text.send(ourNumberId, messageFrom, msgText);
     } else {
