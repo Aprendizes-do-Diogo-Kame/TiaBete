@@ -18,6 +18,7 @@ app.get('/webhook', function(req, res) {
     req.query['hub.verify_token'] == process.env.FB_VERIFICATION_TOKEN
   ) {
     res.send(req.query['hub.challenge']);
+    console.log("Facebook verificou a URL")
   } else {
     res.sendStatus(400);
   }
