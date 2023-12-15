@@ -8,6 +8,10 @@ var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json())
 
+app.get('/', function(req, res){
+    res.send('Deu bom')
+})
+
 app.get('/webhook', function(req, res) {
   if (
     req.query['hub.mode'] == 'subscribe' &&
