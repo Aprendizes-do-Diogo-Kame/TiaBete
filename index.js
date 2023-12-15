@@ -8,6 +8,8 @@ var app = express();
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json())
 
+var chatService = require('../TiaBete/chatGpt/chatService');
+
 app.get('/', function(req, res){
     res.send('Deu bom')
 })
@@ -28,6 +30,11 @@ app.post("/webhook", function (request, response) {
   console.log('Incoming webhook: ' + JSON.stringify(request.body));
   response.sendStatus(200);
 });
+
+app.get('/chatgpt', function(req, res){
+  chatService.testando()
+  res.send(200)
+})
 
 var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
