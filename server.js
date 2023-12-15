@@ -36,17 +36,13 @@ app.post("/webhook", function (request, response) {
 	request.body.entry[0].changes[0].value.messages[0]
 ) {
     let messageType = request.body.entry[0].changes[0].value.messages[0].type;
-    let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
     let messageFrom = request.body.entry[0].changes[0].value.messages[0].from;
     let ourNumberId = request.body.entry[0].changes[0].value.metadata.phone_number_id;
     let msgText;
     if(messageType == "text"){
-        console.log(messageContent);
-        console.log(messageFrom);
-        msgText = "Mensagem recebida."
-        chat.text.send(ourNumberId, messageFrom, msgText);
-    } else if(request.body == undefined || request.body == null || request.body == ""){
-      msgText = "Ainda estou aprendendo a responder esse tipo de mensagem."
+      let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
+      console.log(messageContent);
+      msgText = "Mensagem recebida."
       chat.text.send(ourNumberId, messageFrom, msgText);
     } else {
       console.log("API inconsistente")
