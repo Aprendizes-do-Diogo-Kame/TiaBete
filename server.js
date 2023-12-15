@@ -2,8 +2,8 @@ require('dotenv').config()
 const providers = require('./providers')
 const chat = require('./chat')
 
-var express = require('express')
-  , bodyParser = require('body-parser');
+var express = require('express');
+var bodyParser = require('body-parser');
 
 var app = express();
 
@@ -35,11 +35,11 @@ app.post("/webhook", function (request, response) {
 	request.body.entry[0].changes[0].value.messages &&
 	request.body.entry[0].changes[0].value.messages[0]
 ) {
-    var messageType = request.body.entry[0].changes[0].value.messages[0].type;
-    var messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
-    var messageFrom = request.body.entry[0].changes[0].value.messages[0].from;
-    var ourNumberId = request.body.entry[0].changes[0].value.metadata.phone_number_id;
-    var msgText;
+    let messageType = request.body.entry[0].changes[0].value.messages[0].type;
+    let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
+    let messageFrom = request.body.entry[0].changes[0].value.messages[0].from;
+    let ourNumberId = request.body.entry[0].changes[0].value.metadata.phone_number_id;
+    let msgText;
     if(messageType == "text"){
         console.log(messageContent);
         console.log(messageFrom);
