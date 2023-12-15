@@ -44,6 +44,9 @@ app.post("/webhook", function (request, response) {
       console.log(messageContent);
       msgText = "Mensagem recebida."
       chat.text.send(ourNumberId, messageFrom, msgText);
+    } if(messageType == "audio"){
+      msgText = "Mensagem de audio recebida."
+      chat.text.send(ourNumberId, messageFrom, msgText);
     } else {
       console.log("API inconsistente")
       msgText = "Ainda estou aprendendo a responder esse tipo de mensagem."
