@@ -45,7 +45,11 @@ app.post("/webhook", function (request, response) {
         console.log(messageFrom);
         msgText = "Mensagem recebida."
         chat.text.send(ourNumberId, messageFrom, msgText);
+    } else if(request.body == undefined || request.body == null || request.body == ""){
+      msgText = "Ainda estou aprendendo a responder esse tipo de mensagem."
+      chat.text.send(ourNumberId, messageFrom, msgText);
     } else {
+      console.log("API inconsistente")
       msgText = "Ainda estou aprendendo a responder esse tipo de mensagem."
       chat.text.send(ourNumberId, messageFrom, msgText);
     }
