@@ -1,4 +1,6 @@
 require('dotenv').config()
+const providers = require('./providers')
+const chat = require('./chat')
 
 var express = require('express')
   , bodyParser = require('body-parser');
@@ -37,10 +39,17 @@ app.post("/webhook", function (request, response) {
     let messageType = request.body.entry[0].changes[0].value.messages[0].type;
     let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
     let messageFrom = request.body.entry[0].changes[0].value.messages[0].from;
+    let msgText;
     if(messageType == "text"){
         console.log(messageContent);
         console.log(messageFrom);
-    } 
+        let ourNumberId = request.body.entry[0].changes[0].value.metadata.phone_number_id;
+        msgText = "Mensagem recebida."
+        chat.text.send(ourNumberId, messageFrom, msgText);
+    } else {
+      msgText = "Ainda estou aprendendo a responder esse tipo de mensagem."
+      chat.text.send(ourNumberId, messageFrom, msgText);
+    }
     response.sendStatus(200);
 } else {
 	response.sendStatus(400);
