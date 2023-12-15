@@ -16,7 +16,7 @@ async function send(fromId, destinationNumber, messageText){
             },
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${process.env.FB_VERIFICATION_TOKEN}`
+                "Authorization": `Bearer ${process.env.FB_API_TOKEN}`
             },
         });
         console.log("Mensagem respondida");
