@@ -36,7 +36,7 @@ app.post("/webhook", function (request, response) {
 ) {
     let messageType = request.body.entry[0].changes[0].value.messages[0].type;
     let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
-    let messageFrom = request.body.entry[0].changes[0].value.messages[0].text.body;
+    let messageFrom = request.body.entry[0].changes[0].value.messages[0].from;
     if(messageType == "text"){
         console.log(messageContent);
         console.log(messageFrom);
