@@ -28,7 +28,6 @@ app.get('/webhook', function(req, res) {
 
 app.post("/webhook", function (request, response) {
   console.log('Incoming webhook: ' + JSON.stringify(request.body));
-  response.sendStatus(200);
   if (
 	request.body.entry &&
 	request.body.entry[0].changes &&
@@ -36,11 +35,11 @@ app.post("/webhook", function (request, response) {
 	request.body.entry[0].changes[0].value.messages &&
 	request.body.entry[0].changes[0].value.messages[0]
 ) {
-    let messageType = request.body.entry[0].changes[0].value.messages[0].type;
-    let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
-    let messageFrom = request.body.entry[0].changes[0].value.messages[0].from;
-    let msgText;
-    let ourNumberId = request.body.entry[0].changes[0].value.metadata.phone_number_id;
+    var messageType = request.body.entry[0].changes[0].value.messages[0].type;
+    var messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
+    var messageFrom = request.body.entry[0].changes[0].value.messages[0].from;
+    var ourNumberId = request.body.entry[0].changes[0].value.metadata.phone_number_id;
+    var msgText;
     if(messageType == "text"){
         console.log(messageContent);
         console.log(messageFrom);
