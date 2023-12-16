@@ -41,20 +41,22 @@ app.post("/webhook", function (request, response) {
     let ourNumberId = request.body.entry[0].changes[0].value.metadata.phone_number_id;
     let status = request.body.entry[0].changes[0].statuses;
     let msgText;
-    if(messageType == "text"){
-      let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
-      console.log(messageContent);
-      msgText = "Mensagem recebida."
-      chat.text.send(ourNumberId, messageFrom, msgText);
-    } else if(messageType == "audio"){
-      msgText = "Mensagem de audio recebida."
-      chat.text.send(ourNumberId, messageFrom, msgText);
-    } else if(status){
-      msgText = "Mudança de status"
-      chat.text.send(ourNumberId, messageFrom, msgText);
+    if(!status){
+      if(messageType == "text"){
+        let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
+        console.log(messageContent);
+        msgText = "Mensagem recebida."
+        chat.text.send(ourNumberId, messageFrom, msgText);
+      } else if(messageType == "audio"){
+        msgText = "Mensagem de audio recebida."
+        chat.text.send(ourNumberId, messageFrom, msgText);
+      } else {
+        console.log("API inconsistente")
+        msgText = "Ainda estou aprendendo a responder esse tipo de mensagem."
+        chat.text.send(ourNumberId, messageFrom, msgText);
+      }
     } else {
-      console.log("API inconsistente")
-      msgText = "Ainda estou aprendendo a responder esse tipo de mensagem."
+      msgText = "Mudança de status."
       chat.text.send(ourNumberId, messageFrom, msgText);
     }
     response.sendStatus(200);
