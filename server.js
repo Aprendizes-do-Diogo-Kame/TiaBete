@@ -28,7 +28,7 @@ app.get('/webhook', function(req, res) {
   }
 });
 
-app.post("/webhook", function (request, response) {
+app.post("/webhook", async function (request, response) {
   console.log('Incoming webhook: ' + JSON.stringify(request.body));
   if (
 	request.body.entry &&
@@ -39,6 +39,7 @@ app.post("/webhook", function (request, response) {
 ) {
     let messageType = request.body.entry[0].changes[0].value.messages[0].type;
     let messageFrom = request.body.entry[0].changes[0].value.messages[0].from;
+    let messageTimeStamp = request.body.entry[0].changes[0].value.messages[0].timestamp;
     let ourNumberId = request.body.entry[0].changes[0].value.metadata.phone_number_id;
     let status = request.body.entry[0].changes[0].statuses;
     let msgText;
@@ -46,10 +47,10 @@ app.post("/webhook", function (request, response) {
       if(messageType == "text"){
         let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
         console.log(messageContent);
-        msgText = "Mensagem recebida."
+        msgText = await chat.chatGptService.categorize(messageTimeStamp, messageContent)
         chat.text.send(ourNumberId, messageFrom, msgText);
       } else if(messageType == "audio"){
-        msgText = "Mensagem de audio recebida."
+        msgText = await chat.chatGptService.categorize(messageTimeStamp, messageContent);
         chat.text.send(ourNumberId, messageFrom, msgText);
       } else {
         console.log("API inconsistente")
