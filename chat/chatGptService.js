@@ -1,4 +1,4 @@
-var oai = require("/openai")
+var oai = require("openai")
 
 const openai = new oai({ apiKey: process.env.OPENAI_API_KEY});
 
