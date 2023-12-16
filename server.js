@@ -66,7 +66,7 @@ app.post("/webhook", function (request, response) {
 app.get('/transcreva/:id', async function(req, res) {
   try{
     let mediaId = req.params.id 
-    result = await media.mediaService.getFileTranscription(mediaId)
+    result = await media.mediaService.getFileAndTranscribe(mediaId)
     res.send(result)
   } catch (e){
     res.sendStatus(500)

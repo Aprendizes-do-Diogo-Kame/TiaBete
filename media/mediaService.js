@@ -5,7 +5,7 @@ const deepgramService = require("./deepgramService")
 const file = require("../utils/file")
 
 // colocar await quando for chamar essa bagaça
-async function getFileTranscription(mediaId){
+async function getFileAndTranscribe(mediaId){
     try{
 
         // obtém informações do arquivo do facebook
@@ -27,4 +27,4 @@ async function getFileTranscription(mediaId){
     }
 }
 
-module.exports = {getFileTranscription};
+module.exports = {getFileAndTranscribe};
