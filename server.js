@@ -55,9 +55,6 @@ app.post("/webhook", function (request, response) {
         msgText = "Ainda estou aprendendo a responder esse tipo de mensagem."
         chat.text.send(ourNumberId, messageFrom, msgText);
       }
-    } else {
-      msgText = "Mudança de status."
-      chat.text.send(ourNumberId, messageFrom, msgText);
     }
     response.sendStatus(200);
 } else {
