@@ -11,7 +11,6 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json())
 
 app.get('/', function(req, res){
-    res.send('Deu bom')
     res.sendStatus(200)
 })
 
@@ -38,6 +37,7 @@ app.post("/webhook", function (request, response) {
 ) {
     let messageType = request.body.entry[0].changes[0].value.messages[0].type;
     let messageFrom = request.body.entry[0].changes[0].value.messages[0].from;
+    let messageTimeStamp = request.body.entry[0].changes[0].value.messages[0].timestamp;
     let ourNumberId = request.body.entry[0].changes[0].value.metadata.phone_number_id;
     let status = request.body.entry[0].changes[0].statuses;
     let msgText;
@@ -45,10 +45,10 @@ app.post("/webhook", function (request, response) {
       if(messageType == "text"){
         let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
         console.log(messageContent);
-        msgText = "Mensagem recebida."
+        msgText = chat.chatGptService.categorize(messageTimeStamp, message)
         chat.text.send(ourNumberId, messageFrom, msgText);
       } else if(messageType == "audio"){
-        msgText = "Mensagem de audio recebida."
+        msgText = chat.chatGptService.categorize(messageTimeStamp, message);
         chat.text.send(ourNumberId, messageFrom, msgText);
       } else {
         console.log("API inconsistente")

@@ -1,2 +1,3 @@
 const text = require('./text')
-module.exports = {text}
+const chatGptService = require('./chatGptService')
+module.exports = {text, chatGptService}
