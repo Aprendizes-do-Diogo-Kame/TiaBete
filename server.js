@@ -67,7 +67,7 @@ app.get('/media/:id', async function(req, res) {
   try{
     let mediaId = req.params.id 
     let mediaInfo = await media.mediaService.getMediaUrl(mediaId)
-    let mediaFile = await media.mediaService.downloadMedia(mediaId, mediaInfo.url)
+    let mediaFile = await media.mediaService.downloadMedia(mediaInfo.url)
     file.saveMedia(`file-${mediaId}.ogg`, mediaFile)
     res.send("Arquivo salvo. ")
   } catch (e){

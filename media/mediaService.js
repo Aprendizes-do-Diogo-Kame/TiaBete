@@ -23,7 +23,7 @@ async function getMediaUrl(idMedia){
     }
 }
 
-async function downloadMedia(mediaId, url){
+async function downloadMedia(url){
     try{
         let response = await axios({
             method: "GET",
