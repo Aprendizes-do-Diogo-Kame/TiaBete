@@ -2,6 +2,7 @@ require('dotenv').config()
 const providers = require('./providers')
 const chat = require('./chat')
 const media = require('./media')
+const file = require('./utils/file')
 
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -12,7 +13,6 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json())
 
 app.get('/', function(req, res){
-    res.send('Deu bom')
     res.sendStatus(200)
 })
 
@@ -64,9 +64,15 @@ app.post("/webhook", function (request, response) {
 });
 
 app.get('/media/:id', async function(req, res) {
-  let mediaId = req.params.id 
-  let mediaInfo = await media.mediaService.getMediaUrl(mediaId)
-  res.send(mediaInfo)
+  try{
+    let mediaId = req.params.id 
+    let mediaInfo = await media.mediaService.getMediaUrl(mediaId)
+    let mediaFile = await media.mediaService.downloadMedia(mediaId, mediaInfo.url)
+    file.saveMedia(`file-${mediaId}.ogg`, mediaFile)
+    res.send("Arquivo salvo. ")
+  } catch (e){
+    res.sendStatus(500)
+  }
 });
 
 var listener = app.listen(process.env.PORT, function () {
