@@ -66,7 +66,7 @@ async function categorize(messageDate, userInput) {
   console.log(completion)
 
   console.log("Mensagem:", completion.choices[0].message)
-  return completion.choices[0].message;
+  return completion.choices[0].message.toString();
 }
 
 module.exports = {categorize};
