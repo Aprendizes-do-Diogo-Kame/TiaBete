@@ -5,7 +5,7 @@ const openai = new oai({ apiKey: process.env.OPENAI_API_KEY});
 
 async function categorize(messageDate, userInput) {
   
-  const finalMessage = `dada uma frase, quero que você categorize ela em FOOD, MEDICINE, EXERCISE, GLUCOSE, OTHER. quero que a sua resposta seja um json respeitando os seguintes formatos:
+  const finalMessage = `dada uma frase, quero que você categorize ela em FOOD, MEDICINE, EXERCISE, GLUCOSE, OTHER. Quero que a sua resposta seja apenas um json e nada mais, respeitando os seguintes formatos:
     
   frase: 23-10-10 8:41 "tomei café, comi pão de queijo"
   resposta: 
@@ -57,7 +57,7 @@ async function categorize(messageDate, userInput) {
   }
   
   
-  Agora faça com este exemplo, porém, converta a data passada em TIMESTAMP para o formato DD/MM/AAAA HORA/MINUTOS: Frase: "${messageDate}" "${userInput}"`
+  Agora faça com este exemplo, porém, converta a data passada está em epoch time mude para o formato DD/MM/AAAA HORA/MINUTOS: Frase: "${messageDate}" "${userInput}"`
   const completion = await openai.chat.completions.create({
     messages: [{ role: "system", content: finalMessage }],
     model: "gpt-3.5-turbo",
@@ -66,7 +66,7 @@ async function categorize(messageDate, userInput) {
   console.log(completion)
 
   console.log("Mensagem:", completion.choices[0].message)
-  return JSON.stringify(completion.choices[0].message);
+  return JSON.stringify(completion.choices[0].message.content)
 }
 
 module.exports = {categorize};
