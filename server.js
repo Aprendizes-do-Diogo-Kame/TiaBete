@@ -1,6 +1,8 @@
 require('dotenv').config()
 const providers = require('./providers')
 const chat = require('./chat')
+const media = require('./media')
+const file = require('./utils/file')
 
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -60,6 +62,16 @@ app.post("/webhook", async function (request, response) {
 } else {
 	response.sendStatus(400);
 }
+});
+
+app.get('/transcreva/:id', async function(req, res) {
+  try{
+    let mediaId = req.params.id 
+    result = await media.mediaService.getFileAndTranscribe(mediaId)
+    res.send(result)
+  } catch (e){
+    res.sendStatus(500)
+  }
 });
 
 var listener = app.listen(process.env.PORT, function () {
