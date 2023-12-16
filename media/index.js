@@ -1,2 +1,3 @@
 const facebookMediaService = require('./facebookMediaService');
-module.exports = {facebookMediaService}
+const deepgramService = require('./deepgramService');
+module.exports = {facebookMediaService, deepgramService}

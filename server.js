@@ -68,8 +68,19 @@ app.get('/media/:id', async function(req, res) {
     let mediaId = req.params.id 
     let mediaInfo = await media.facebookMediaService.getMediaUrl(mediaId)
     let mediaFile = await media.facebookMediaService.downloadMedia(mediaInfo.url)
-    file.saveMedia(`file-${mediaId}.ogg`, mediaFile)
+    let filePath = `file-${mediaId}.ogg`
+    file.saveMedia(filePath, mediaFile)
     res.send("Arquivo salvo. ")
+  } catch (e){
+    res.sendStatus(500)
+  }
+});
+
+app.get('/media_transcription/:id', async function(req, res) {
+  try{
+    filePath = "./files/file-6983207831772880.ogg"
+    let transcription = await media.deepgramService.transcription(filePath)
+    res.send(transcription)
   } catch (e){
     res.sendStatus(500)
   }
