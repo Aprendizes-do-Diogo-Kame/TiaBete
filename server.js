@@ -63,24 +63,11 @@ app.post("/webhook", function (request, response) {
 }
 });
 
-app.get('/media/:id', async function(req, res) {
+app.get('/transcreva/:id', async function(req, res) {
   try{
     let mediaId = req.params.id 
-    let mediaInfo = await media.facebookMediaService.getMediaUrl(mediaId)
-    let mediaFile = await media.facebookMediaService.downloadMedia(mediaInfo.url)
-    let filePath = `file-${mediaId}.ogg`
-    file.saveMedia(filePath, mediaFile)
-    res.send("Arquivo salvo. ")
-  } catch (e){
-    res.sendStatus(500)
-  }
-});
-
-app.get('/media_transcription/:id', async function(req, res) {
-  try{
-    filePath = "./files/file-6983207831772880.ogg"
-    let transcription = await media.deepgramService.transcription(filePath)
-    res.send(transcription)
+    result = await media.mediaService.getFileTranscription(mediaId)
+    res.send(result)
   } catch (e){
     res.sendStatus(500)
   }
