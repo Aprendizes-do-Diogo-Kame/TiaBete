@@ -1,2 +1,2 @@
-const mediaService = require('./mediaService');
-module.exports = {mediaService}
+const facebookMediaService = require('./facebookMediaService');
+module.exports = {facebookMediaService}
