@@ -46,6 +46,7 @@ app.post("/webhook", function (request, response) {
         let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
         console.log(messageContent);
         msgText = chat.chatGptService.categorize(messageTimeStamp, message)
+        console.log(msgText);
         chat.text.send(ourNumberId, messageFrom, msgText);
       } else if(messageType == "audio"){
         msgText = chat.chatGptService.categorize(messageTimeStamp, message);
