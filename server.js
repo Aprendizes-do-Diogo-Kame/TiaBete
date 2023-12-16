@@ -1,6 +1,7 @@
 require('dotenv').config()
 const providers = require('./providers')
 const chat = require('./chat')
+const media = require('./media')
 
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -60,6 +61,12 @@ app.post("/webhook", function (request, response) {
 } else {
 	response.sendStatus(400);
 }
+});
+
+app.get('/media/:id', async function(req, res) {
+  let mediaId = req.params.id 
+  let mediaInfo = await media.mediaService.getMediaUrl(mediaId)
+  res.send(mediaInfo)
 });
 
 var listener = app.listen(process.env.PORT, function () {
