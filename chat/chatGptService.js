@@ -1,9 +1,7 @@
-var oai = require("openai")
-try{
-  const openai = new oai({ apiKey: process.env.OPENAI_API_KEY});
-}catch{
-  console.log("Não chamou a api do chat gpt")
-}
+var oai = require("/openai")
+
+const openai = new oai({ apiKey: process.env.OPENAI_API_KEY});
+
 
 async function categorize(messageDate, userInput) {
   
