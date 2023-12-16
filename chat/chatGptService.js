@@ -66,7 +66,9 @@ async function categorize(messageDate, userInput) {
   console.log(completion)
   console.log("Mensagem:", completion.choices[0].message)
   const chatGptJson = completion.choices[0].message.content
-  return `Recebi '${chatGptJson.message}' do tipo ${chatGptJson.category}`
+  const category = JSON.stringify(chatGptJson.category)
+  const message = JSON.stringify(chatGptJson.message)
+  return "Recebi " + message + " do tipo " + category;
 }
 
 module.exports = {categorize};
