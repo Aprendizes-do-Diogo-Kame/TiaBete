@@ -39,7 +39,7 @@ app.post("/webhook", function (request, response) {
     let messageType = request.body.entry[0].changes[0].value.messages[0].type;
     let messageFrom = request.body.entry[0].changes[0].value.messages[0].from;
     let ourNumberId = request.body.entry[0].changes[0].value.metadata.phone_number_id;
-    let status = request.body.entry[0].changes[0].statuses[0].status;
+    let status = request.body.entry[0].changes[0].statuses;
     let msgText;
     if(messageType == "text"){
       let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
