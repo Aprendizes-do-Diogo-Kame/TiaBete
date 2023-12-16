@@ -1,8 +1,8 @@
 var oai = require("openai")
 
 const openai = new oai({ apiKey: process.env.OPENAI_API_KEY});
-
-async function categorize(messageDate, userInput) {
+var app = express();
+app.post('/chatgpt', async function categorize(messageDate, userInput) {
   
   const finalMessage = `dada uma frase, quero que você categorize ela em FOOD, MEDICINE, EXERCISE, GLUCOSE, OTHER. quero que a sua resposta seja um json respeitando os seguintes formatos:
     
@@ -65,7 +65,7 @@ async function categorize(messageDate, userInput) {
   console.log(completion)
 
   console.log("Mensagem:", completion.choices[0].message)
-  return completion.choices[0].message.toString();
-}
+  return completion.choices[0].message;
+})
 
 module.exports = {categorize};
