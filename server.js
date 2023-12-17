@@ -48,12 +48,14 @@ app.post("/webhook", async function (request, response) {
       if(messageType == "text"){
         let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
         console.log(messageContent);
-        msgText = await chat.chatGptService.categorize(messageTimeStamp, messageContent)
+        let jsonResult = await chat.chatGptService.categorize(messageTimeStamp, messageContent)
+        let msgText = await feedbacks.getFeedbackMessage(jsonResult)
         chat.text.send(ourNumberId, messageFrom, msgText);
       } else if(messageType == "audio"){
         let mediaId = request.body.entry[0].changes[0].value.messages[0].audio.id;
         let messageContent = await media.mediaService.getFileAndTranscribe(mediaId)
-        msgText = await chat.chatGptService.categorize(messageTimeStamp, messageContent);
+        let jsonResult = await chat.chatGptService.categorize(messageTimeStamp, messageContent);
+        let msgText = await feedbacks.getFeedbackMessage(jsonResult)
         chat.text.send(ourNumberId, messageFrom, msgText);
       } else {
         console.log("API inconsistente")

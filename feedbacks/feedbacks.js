@@ -5,14 +5,14 @@ const chatGptService = require('../chat/chatGptService')
 
 async function getFeedbackMessage(jsonData) {
 
+    console.log("Criando uma mensagem para: ", jsonData)
+
     let msg = ''
 
     let chatGptFeedbackMessage = await chatGptService.getFeedbackMessage(jsonData.message)
 
     switch(jsonData.category){
         case consts.categories.FOOD:  
-
-
             msg = `
 Sua mensagem foi: '${jsonData.message}'. 
 
