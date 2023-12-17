@@ -68,7 +68,7 @@ async function categorize(messageDate, userInput) {
   const chatGptJson = completion.choices[0].message.content
   const cleanedJsonString = chatGptJson.replace(/\\n/g, '').replace(/' \+/g, '').replace(/' /g, '');
   const jsonObject = JSON.parse(cleanedJsonString);
-  return `Recebi '${jsonObject.message}' do tipo ${jsonObject.category}`
+  return jsonObject
   
 }
 

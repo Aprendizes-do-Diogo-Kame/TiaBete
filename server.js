@@ -3,6 +3,7 @@ const providers = require('./providers')
 const chat = require('./chat')
 const media = require('./media')
 const file = require('./utils/file')
+const feedbacks = require('./feedbacks/feedbacks')
 
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -71,6 +72,23 @@ app.get('/transcreva/:id', async function(req, res) {
     let mediaId = req.params.id 
     result = await media.mediaService.getFileAndTranscribe(mediaId)
     res.send(result)
+  } catch (e){
+    res.sendStatus(500)
+  }
+});
+
+app.get('/chatgpt', async function(req, res) {
+  try{
+    let message = req.body.message 
+    let messageTimestamp = req.body.messageTimestamp 
+    let jsonResult = await chat.chatGptService.categorize(messageTimestamp,message)
+    // let jsonResult = {category: 'FOOD',
+    // message: 'comi arroz feijao e batata muito bom',
+    // date: '16/10/2024 09:42',
+    // items: [ 'arroz', 'feijao', 'batata' ]}
+    console.log(jsonResult)
+    let formattedMessage = feedbacks.getFeedbackMessage(jsonResult)
+    res.send(formattedMessage)
   } catch (e){
     res.sendStatus(500)
   }
