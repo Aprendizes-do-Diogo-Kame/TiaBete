@@ -64,7 +64,7 @@ async function categorize(messageDate, userInput) {
       message: "hoje tive hiperglicemia",
       date: "1702754968",
       glucose:200
-,  }
+  }
   
   frase: 1702834929 "bla bla bla"
   resposta:
@@ -74,7 +74,7 @@ async function categorize(messageDate, userInput) {
       date: "1702834929",
   }
   
-  Coisas relacionadas a glicose, como alto indice glicemico ou baixo indice glicemico ou queda/alta de glicose, hipoglicemia ou hiperglicemia, entre outros relacionados a glicose devem tudo entrar na categoria GLUCOSE.
+  Coisas relacionadas a glicose, como alto indice glicemico ou baixo indice glicemico, hipoglicemia ou hiperglicemia, entre outros relacionados a glicose devem tudo entrar na categoria GLUCOSE e campo glucose deve sempre receber 60 em caso de hipoglicemia, e 200 em caso de hiperglicemia.
   Agora faça com este exemplo, Frase: "${messageDate}" "${userInput}"`
   const completion = await openai.chat.completions.create({
     messages: [{ role: "system", content: finalMessage }],
