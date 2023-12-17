@@ -58,7 +58,7 @@ ${jsonData.time ? `Tempo: ${jsonData.time}`:``}
 
 Categoria: ${consts.categoriesPTBR.GLUCOSE}
 ${jsonData.date ? `Horário: ${formattedDate}`:``}
-${jsonData.glucose ? `Índice glicêmico: ${jsonData.glucose}mg/dL`:``}
+${jsonData.glucose ? `Índice glicêmico: ${jsonData.glucose}`:``}
             `
             break;
 
