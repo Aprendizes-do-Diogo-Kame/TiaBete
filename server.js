@@ -62,7 +62,7 @@ app.post("/webhook", async function (request, response) {
               phone: messageFrom
             }
             await mongodb.createUser(userJson);
-            msgText = `E ai, ${user.name}. Novo por aqui, né?`;
+            msgText = `E ai, ${userJson.name}. Novo por aqui, né?`;
             chat.text.send(ourNumberId, messageFrom, msgText);
           }
           //else criar usuário e send onboarding
@@ -70,14 +70,14 @@ app.post("/webhook", async function (request, response) {
         } else {
           console.log(messageContent);
           let jsonResult = await chat.chatGptService.categorize(messageTimeStamp, messageContent)
-          let msgText = await feedbacks.getFeedbackMessage(jsonResult)
+          msgText = await feedbacks.getFeedbackMessage(jsonResult)
           chat.text.send(ourNumberId, messageFrom, msgText);
         }
       } else if(messageType == "audio"){
         let mediaId = request.body.entry[0].changes[0].value.messages[0].audio.id;
         let messageContent = await media.mediaService.getFileAndTranscribe(mediaId)
         let jsonResult = await chat.chatGptService.categorize(messageTimeStamp, messageContent);
-        let msgText = await feedbacks.getFeedbackMessage(jsonResult)
+        msgText = await feedbacks.getFeedbackMessage(jsonResult)
         chat.text.send(ourNumberId, messageFrom, msgText);
       } else {
         console.log("API inconsistente")
