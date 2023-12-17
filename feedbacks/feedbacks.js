@@ -1,20 +1,26 @@
 
 const consts = require('../consts/consts')
 
-function getFeedbackMessage(jsonData) {
+const chatGptService = require('../chat/chatGptService')
+
+async function getFeedbackMessage(jsonData) {
 
     let msg = ''
-    
+
+    let chatGptFeedbackMessage = await chatGptService.getFeedbackMessage(jsonData.message)
 
     switch(jsonData.category){
         case consts.categories.FOOD:  
+
+
             msg = `
 Sua mensagem foi: '${jsonData.message}'. 
 
-Registrei aqui:
+ *${chatGptFeedbackMessage}* 
+
 Categoria: ${consts.categoriesPTBR.FOOD}
-Horário: ${jsonData.date}
-Itens: ${jsonData.items.join(", ")}
+${jsonData.date ? `Horário: ${jsonData.date}`:``}
+${jsonData.date?.length > 0 ? `Itens: ${jsonData.items.join(", ")}`:``}
             `
             break;
 
@@ -22,11 +28,12 @@ Itens: ${jsonData.items.join(", ")}
             msg = `
 Sua mensagem foi: '${jsonData.message}'. 
 
-Registrei aqui:
+ *${chatGptFeedbackMessage}*
+
 Categoria: ${consts.categoriesPTBR.MEDICINE}
-Horário: ${jsonData.date}
-Nome: ${jsonData.name}
-Quantidade: ${jsonData.quantity} unidades
+${jsonData.date ? `Horário: ${jsonData.date}`:``}
+${jsonData.name ? `Nome: ${jsonData.name}`:``}
+${jsonData.quantity ? `Quantidade: ${jsonData.quantity} unidades`:``}
             `
             break;
 
@@ -34,11 +41,12 @@ Quantidade: ${jsonData.quantity} unidades
             msg = `
 Sua mensagem foi: '${jsonData.message}'. 
 
-Registrei aqui:
+ *${chatGptFeedbackMessage}* 
+
 Categoria: ${consts.categoriesPTBR.EXERCISE}
-Horário: ${jsonData.date}
-Nome: ${jsonData.name}
-Tempo: ${jsonData.time}
+${jsonData.date ? `Horário: ${jsonData.date}`:``}
+${jsonData.name ? `Nome: ${jsonData.name}`:``}
+${jsonData.time ? `Tempo: ${jsonData.time}`:``}
             `
             break;
             
@@ -47,10 +55,11 @@ Tempo: ${jsonData.time}
             msg = `
 Sua mensagem foi: '${jsonData.message}'. 
 
-Registrei aqui:
+ *${chatGptFeedbackMessage}*
+
 Categoria: ${consts.categoriesPTBR.GLUCOSE}
-Horário: ${jsonData.date}
-Índice glicêmico: ${jsonData.glucose}mg/dL
+${jsonData.date ? `Horário: ${jsonData.date}`:``}
+${jsonData.glucose ? `Índice glicêmico: ${jsonData.glucose}mg/dL`:``}
             `
             break;
 

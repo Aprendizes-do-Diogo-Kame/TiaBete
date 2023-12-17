@@ -87,7 +87,7 @@ app.get('/chatgpt', async function(req, res) {
     // date: '16/10/2024 09:42',
     // items: [ 'arroz', 'feijao', 'batata' ]}
     console.log(jsonResult)
-    let formattedMessage = feedbacks.getFeedbackMessage(jsonResult)
+    let formattedMessage = await feedbacks.getFeedbackMessage(jsonResult)
     res.send(formattedMessage)
   } catch (e){
     res.sendStatus(500)
