@@ -16,6 +16,7 @@ async function transcription(filePath){
                 language: "pt-BR"
             }
         );
+        console.log(result, error)
     
         return result.results.channels[0].alternatives[0].transcript
     } catch(error){
