@@ -54,7 +54,7 @@ async function categorize(messageDate, userInput) {
       category: "GLUCOSE",
       message: "hoje tive hipoglicemia",
       date: "1702754968",
-      glucose: hipoglicemia
+      glucose: 60
   }
 
   frase: 1702754968 "hoje tive hiperglicemia"
@@ -63,7 +63,7 @@ async function categorize(messageDate, userInput) {
       category: "GLUCOSE",
       message: "hoje tive hiperglicemia",
       date: "1702754968",
-      glucose: hiperglicemia
+      glucose: 200
   }
   
   frase: 1702834929 "bla bla bla"
