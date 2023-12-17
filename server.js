@@ -45,14 +45,26 @@ app.post("/webhook", async function (request, response) {
     let messageTimeStamp = request.body.entry[0].changes[0].value.messages[0].timestamp;
     let ourNumberId = request.body.entry[0].changes[0].value.metadata.phone_number_id;
     let status = request.body.entry[0].changes[0].statuses;
+    let contactName = request.body.entry[0].changes[0].value.contacts[0].profile.name;
     let msgText;
     if(!status){
       if(messageType == "text"){
         let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
         if(messageContent.includes("Oi, TiaBete. É a minha primeira vez aqui!")){
-          const verifyUser = await mongodb.getUser(messageFrom)
-          console.log(verifyUser);
+          const user = await mongodb.getUser(messageFrom)
           //if verifyUser send oi, usuário
+          if(user) {
+            msgText = `Bem-vindo de volta, ${user.name}`;
+            chat.text.send(ourNumberId, messageFrom, msgText);
+          } else {
+            const userJson = {
+              name: contactName,
+              phone: messageFrom
+            }
+            await mongodb.createUser(userJson);
+            msgText = `E ai, ${user.name}. Novo por aqui, né?`;
+            chat.text.send(ourNumberId, messageFrom, msgText);
+          }
           //else criar usuário e send onboarding
           
         } else {
