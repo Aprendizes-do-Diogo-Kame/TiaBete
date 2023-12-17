@@ -5,9 +5,9 @@ const openai = new oai({ apiKey: process.env.OPENAI_API_KEY});
 
 async function categorize(messageDate, userInput) {
   
-  const finalMessage = `dada uma frase, quero que você categorize ela em FOOD, MEDICINE, EXERCISE, GLUCOSE, OTHER e converta o TimeStamp passado em epoch time para o formato DD/MM/AAAA HORA/MINUTOS:. Quero que a sua resposta seja apenas um json e nada mais, respeitando os seguintes formatos:
+  const finalMessage = `dada uma frase, quero que você categorize ela em FOOD, MEDICINE, EXERCISE, GLUCOSE, OTHER. Quero que a sua resposta seja apenas um json e nada mais, respeitando os seguintes formatos:
     
-  frase: TimeStamp: 1702754968 "tomei café, comi pão de queijo"
+  frase: "23-10-10 8:41" "tomei café, comi pão de queijo"
   resposta: 
   {
       category: "FOOD",
@@ -57,7 +57,7 @@ async function categorize(messageDate, userInput) {
   }
   
   
-  Agora faça com este exemplo, Frase: "TimeStamp: ${messageDate}" "${userInput}"`
+  Agora faça com este exemplo, Frase: "${messageDate}" "${userInput}"`
   const completion = await openai.chat.completions.create({
     messages: [{ role: "system", content: finalMessage }],
     model: "gpt-3.5-turbo",
@@ -68,8 +68,34 @@ async function categorize(messageDate, userInput) {
   const chatGptJson = completion.choices[0].message.content
   const cleanedJsonString = chatGptJson.replace(/\\n/g, '').replace(/' \+/g, '').replace(/' /g, '');
   const jsonObject = JSON.parse(cleanedJsonString);
-  return `Recebi '${jsonObject.message}' do tipo ${jsonObject.category}`
+  return jsonObject
   
 }
 
-module.exports = {categorize};
+async function getFeedbackMessage(message) {
+
+  console.log("Mensagem enviada para o chat: ", message)
+  
+  const finalMessage = `
+  Estou criando um bot, chamado TiaBete, que foi projetado para ser um assistente fácil de usar para o controle do diabetes, com foco no monitoramento de nutrição, medicamentos, exercícios e níveis de glicose no sangue. Ao encontrar informações pouco claras ou incompletas, ela fará perguntas específicas educadamente para esclarecer. Por exemplo, se um usuário menciona uma refeição, mas não especifica o que comeu, TiaBete pode perguntar: 'Você poderia me dizer quais alimentos estavam em sua refeição?' Isso garante uma gravação precisa. Ela manterá seu comportamento casual e amigável, garantindo que os usuários se sintam confortáveis e, ao mesmo tempo, fornecendo os detalhes necessários para seus registros de controle do diabetes.
+
+  Quero que, dada uma mensagem, você me forneça uma resposta como se fosse este bot que criei. A resposta deve ser objetiva e curta e se restringir a no máximo 500 caracteres e não perguntar nem pedir informações adicionais, apenas registrar dentro do possível com o que foi informado e inferir o que for possível. 
+  
+  Mensagem: ${message}
+  
+  `
+
+  const completion = await openai.chat.completions.create({
+    messages: [{ role: "system", content: finalMessage }],
+    model: "gpt-4-1106-preview",
+  });
+
+  console.log(completion)
+  const chatGptResp = completion.choices[0].message.content
+  console.log(chatGptResp)
+  return chatGptResp
+}
+
+
+
+module.exports = {categorize, getFeedbackMessage};

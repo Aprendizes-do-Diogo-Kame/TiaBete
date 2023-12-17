@@ -4,6 +4,7 @@ const chat = require('./chat')
 const media = require('./media')
 const file = require('./utils/file')
 const time = require('./utils/converTime')
+const feedbacks = require('./feedbacks/feedbacks')
 
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -48,12 +49,14 @@ app.post("/webhook", async function (request, response) {
       if(messageType == "text"){
         let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
         console.log(messageContent);
-        msgText = await chat.chatGptService.categorize(time.epochToDate(messageTimeStamp), messageContent)
+        let jsonResult = await chat.chatGptService.categorize(time.epochToDate(messageTimeStamp), messageContent)
+        let msgText = await feedbacks.getFeedbackMessage(jsonResult)
         chat.text.send(ourNumberId, messageFrom, msgText);
       } else if(messageType == "audio"){
         let mediaId = request.body.entry[0].changes[0].value.messages[0].audio.id;
         let messageContent = await media.mediaService.getFileAndTranscribe(mediaId)
-        msgText = await chat.chatGptService.categorize(messageTimeStamp, messageContent);
+        let jsonResult = await chat.chatGptService.categorize(messageTimeStamp, messageContent);
+        let msgText = await feedbacks.getFeedbackMessage(jsonResult)
         chat.text.send(ourNumberId, messageFrom, msgText);
       } else {
         console.log("API inconsistente")
@@ -72,6 +75,23 @@ app.get('/transcreva/:id', async function(req, res) {
     let mediaId = req.params.id 
     result = await media.mediaService.getFileAndTranscribe(mediaId)
     res.send(result)
+  } catch (e){
+    res.sendStatus(500)
+  }
+});
+
+app.get('/chatgpt', async function(req, res) {
+  try{
+    let message = req.body.message 
+    let messageTimestamp = req.body.messageTimestamp 
+    let jsonResult = await chat.chatGptService.categorize(messageTimestamp,message)
+    // let jsonResult = {category: 'FOOD',
+    // message: 'comi arroz feijao e batata muito bom',
+    // date: '16/10/2024 09:42',
+    // items: [ 'arroz', 'feijao', 'batata' ]}
+    console.log(jsonResult)
+    let formattedMessage = await feedbacks.getFeedbackMessage(jsonResult)
+    res.send(formattedMessage)
   } catch (e){
     res.sendStatus(500)
   }
