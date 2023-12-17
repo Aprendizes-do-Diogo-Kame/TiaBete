@@ -5,6 +5,7 @@ const media = require('./media')
 const file = require('./utils/file')
 const time = require('./utils/converTime')
 const feedbacks = require('./feedbacks/feedbacks')
+const mongodb = require('./mongoDB')
 
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -48,10 +49,18 @@ app.post("/webhook", async function (request, response) {
     if(!status){
       if(messageType == "text"){
         let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
-        console.log(messageContent);
-        let jsonResult = await chat.chatGptService.categorize(messageTimeStamp, messageContent)
-        let msgText = await feedbacks.getFeedbackMessage(jsonResult)
-        chat.text.send(ourNumberId, messageFrom, msgText);
+        if(messageContent.includes("Oi, TiaBete. É a minha primeira vez aqui!")){
+          const verifyUser = mongodb.getUser(messageFrom)
+          console.log(verifyUser);
+          //if verifyUser send oi, usuário
+          //else criar usuário e send onboarding
+          
+        } else {
+          console.log(messageContent);
+          let jsonResult = await chat.chatGptService.categorize(messageTimeStamp, messageContent)
+          let msgText = await feedbacks.getFeedbackMessage(jsonResult)
+          chat.text.send(ourNumberId, messageFrom, msgText);
+        }
       } else if(messageType == "audio"){
         let mediaId = request.body.entry[0].changes[0].value.messages[0].audio.id;
         let messageContent = await media.mediaService.getFileAndTranscribe(mediaId)
