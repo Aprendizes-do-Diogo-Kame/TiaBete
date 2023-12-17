@@ -50,7 +50,7 @@ app.post("/webhook", async function (request, response) {
       if(messageType == "text"){
         let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
         if(messageContent.includes("Oi, TiaBete. É a minha primeira vez aqui!")){
-          const verifyUser = mongodb.getUser(messageFrom)
+          const verifyUser = await mongodb.getUser(messageFrom)
           console.log(verifyUser);
           //if verifyUser send oi, usuário
           //else criar usuário e send onboarding
