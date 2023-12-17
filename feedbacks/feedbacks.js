@@ -16,7 +16,7 @@ async function getFeedbackMessage(jsonData) {
             msg = `
 Sua mensagem foi: '${jsonData.message}'. 
 
- *${chatGptFeedbackMessage}* 
+*${chatGptFeedbackMessage}* 
 
 Categoria: ${consts.categoriesPTBR.FOOD}
 ${jsonData.date ? `Horário: ${jsonData.date}`:``}
@@ -28,7 +28,7 @@ ${jsonData.date?.length > 0 ? `Itens: ${jsonData.items.join(", ")}`:``}
             msg = `
 Sua mensagem foi: '${jsonData.message}'. 
 
- *${chatGptFeedbackMessage}*
+*${chatGptFeedbackMessage}*
 
 Categoria: ${consts.categoriesPTBR.MEDICINE}
 ${jsonData.date ? `Horário: ${jsonData.date}`:``}
@@ -41,7 +41,7 @@ ${jsonData.quantity ? `Quantidade: ${jsonData.quantity} unidades`:``}
             msg = `
 Sua mensagem foi: '${jsonData.message}'. 
 
- *${chatGptFeedbackMessage}* 
+*${chatGptFeedbackMessage}* 
 
 Categoria: ${consts.categoriesPTBR.EXERCISE}
 ${jsonData.date ? `Horário: ${jsonData.date}`:``}
@@ -55,7 +55,7 @@ ${jsonData.time ? `Tempo: ${jsonData.time}`:``}
             msg = `
 Sua mensagem foi: '${jsonData.message}'. 
 
- *${chatGptFeedbackMessage}*
+*${chatGptFeedbackMessage}*
 
 Categoria: ${consts.categoriesPTBR.GLUCOSE}
 ${jsonData.date ? `Horário: ${jsonData.date}`:``}
