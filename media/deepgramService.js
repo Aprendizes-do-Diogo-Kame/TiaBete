@@ -20,7 +20,6 @@ async function transcription(filePath){
     
         return result.results.channels[0].alternatives[0].transcript
     } catch(error){
-        console.log("Erro em transcription: ", error)
         throw new Error("Erro ao transcrever arquivo: ", error)
     }
 }
