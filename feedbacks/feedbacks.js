@@ -3,9 +3,12 @@ const consts = require('../consts/consts')
 
 const chatGptService = require('../chat/chatGptService')
 
+
+const time = require('../utils/converTime')
+
 async function getFeedbackMessage(jsonData) {
 
-    console.log("Criando uma mensagem para: ", jsonData)
+    let formattedDate = time.epochToDate(jsonData.date)
 
     let msg = ''
 
@@ -19,8 +22,8 @@ Sua mensagem foi: '${jsonData.message}'.
 *${chatGptFeedbackMessage}* 
 
 Categoria: ${consts.categoriesPTBR.FOOD}
-${jsonData.date ? `Horário: ${jsonData.date}`:``}
-${jsonData.date?.length > 0 ? `Itens: ${jsonData.items.join(", ")}`:``}
+${jsonData.date ? `Horário: ${formattedDate}`:``}
+${jsonData.items?.length > 0 ? `Itens: ${jsonData.items.join(", ")}`:``}
             `
             break;
 
@@ -31,7 +34,7 @@ Sua mensagem foi: '${jsonData.message}'.
 *${chatGptFeedbackMessage}*
 
 Categoria: ${consts.categoriesPTBR.MEDICINE}
-${jsonData.date ? `Horário: ${jsonData.date}`:``}
+${jsonData.date ? `Horário: ${formattedDate}`:``}
 ${jsonData.name ? `Nome: ${jsonData.name}`:``}
 ${jsonData.quantity ? `Quantidade: ${jsonData.quantity} unidades`:``}
             `
@@ -44,7 +47,7 @@ Sua mensagem foi: '${jsonData.message}'.
 *${chatGptFeedbackMessage}* 
 
 Categoria: ${consts.categoriesPTBR.EXERCISE}
-${jsonData.date ? `Horário: ${jsonData.date}`:``}
+${jsonData.date ? `Horário: ${formattedDate}`:``}
 ${jsonData.name ? `Nome: ${jsonData.name}`:``}
 ${jsonData.time ? `Tempo: ${jsonData.time}`:``}
             `
@@ -58,7 +61,7 @@ Sua mensagem foi: '${jsonData.message}'.
 *${chatGptFeedbackMessage}*
 
 Categoria: ${consts.categoriesPTBR.GLUCOSE}
-${jsonData.date ? `Horário: ${jsonData.date}`:``}
+${jsonData.date ? `Horário: ${formattedDate}`:``}
 ${jsonData.glucose ? `Índice glicêmico: ${jsonData.glucose}mg/dL`:``}
             `
             break;

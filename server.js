@@ -49,13 +49,13 @@ app.post("/webhook", async function (request, response) {
       if(messageType == "text"){
         let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
         console.log(messageContent);
-        let jsonResult = await chat.chatGptService.categorize(time.epochToDate(messageTimeStamp), messageContent)
+        let jsonResult = await chat.chatGptService.categorize(messageTimeStamp, messageContent)
         let msgText = await feedbacks.getFeedbackMessage(jsonResult)
         chat.text.send(ourNumberId, messageFrom, msgText);
       } else if(messageType == "audio"){
         let mediaId = request.body.entry[0].changes[0].value.messages[0].audio.id;
         let messageContent = await media.mediaService.getFileAndTranscribe(mediaId)
-        let jsonResult = await chat.chatGptService.categorize(time.epochToDate(messageTimeStamp), messageContent);
+        let jsonResult = await chat.chatGptService.categorize(messageTimeStamp, messageContent);
         let msgText = await feedbacks.getFeedbackMessage(jsonResult)
         chat.text.send(ourNumberId, messageFrom, msgText);
       } else {
@@ -70,6 +70,9 @@ app.post("/webhook", async function (request, response) {
 }
 });
 
+/**
+ * Endpoints de teste
+ */
 app.get('/transcreva/:id', async function(req, res) {
   try{
     let mediaId = req.params.id 
@@ -85,11 +88,6 @@ app.get('/chatgpt', async function(req, res) {
     let message = req.body.message 
     let messageTimestamp = req.body.messageTimestamp 
     let jsonResult = await chat.chatGptService.categorize(messageTimestamp,message)
-    // let jsonResult = {category: 'FOOD',
-    // message: 'comi arroz feijao e batata muito bom',
-    // date: '16/10/2024 09:42',
-    // items: [ 'arroz', 'feijao', 'batata' ]}
-    console.log(jsonResult)
     let formattedMessage = await feedbacks.getFeedbackMessage(jsonResult)
     res.send(formattedMessage)
   } catch (e){
