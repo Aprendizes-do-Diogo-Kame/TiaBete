@@ -53,7 +53,8 @@ app.post("/webhook", async function (request, response) {
         let mediaId = request.body.entry[0].changes[0].value.messages[0].audio.id;
         let messageContent = await media.mediaService.getFileAndTranscribe(mediaId)
         msgText = await chat.chatGptService.categorize(messageTimeStamp, messageContent);
-        chat.text.send(ourNumberId, messageFrom, msgText);
+        chat.text.send(ourNumberId, messageFrom, "chegou o audio");
+        chat.text.send(ourNumberId, messageFrom, mediaId);
       } else {
         console.log("API inconsistente")
         msgText = "Ainda estou aprendendo a responder esse tipo de mensagem."
