@@ -62,7 +62,7 @@ app.post("/webhook", async function (request, response) {
               phone: messageFrom
             }
             await mongodb.createUser(userJson);
-            msgText = `Olá, *${userJson.name}*!\n\nSou a *TiaBete*, sua parceira para o controle do diabetes! Estou aqui para te ajudar a acompanhar sua alimentação, medicamentos, exercícios e glicose no sangue.\n\nVamos juntos tornar o gerenciamento do diabetes mais fácil, barato e tranquilo.\n\nVocê pode me dizer tudo o que pode impactar em seu índice glicêmico, como por exemplo:\n\nAlimentação ("Comi macarronada agora");\nExercícios físicos ("Fiz 30 minutos de natação");\nGlicemia ("Minha glicose está em 100mg/dL);\nMedicamentos ("Tomei uma dose de insulina");\n\nVocê pode me mandar em *áudio* se preferir. 🔊`
+            msgText = `Olá, *${userJson.name}*!\n\nSou a *TiaBete*, sua parceira para o controle do diabetes! Estou aqui para te ajudar a acompanhar sua alimentação, medicamentos, exercícios e glicose no sangue.\n\nVamos juntos tornar o gerenciamento do diabetes mais fácil, barato e tranquilo.\n\nVocê pode me dizer tudo o que pode impactar em seu índice glicêmico, como por exemplo:\n\n- *Alimentação:* Comi macarronada agora";\n- *Exercícios físicos:* "Fiz 30 minutos de natação";\n- *Glicemia:* "Minha glicose está em 100mg/dL";\n- *Medicamentos:* "Tomei uma dose de insulina";\n\nVocê pode me mandar em *áudio* se preferir. 🔊`
 
             chat.text.send(ourNumberId, messageFrom, msgText);
           }
