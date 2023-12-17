@@ -74,7 +74,7 @@ app.post("/webhook", async function (request, response) {
             . Glicemia ("Minha glicose está em 100mg/dL);
             . Medicamentos ("Tomei uma dose de insulina");
 
-            Você pode me mandar em *áudio* também, se for mais fácil.`
+            Você pode me mandar em *áudio* se preferir.`
 
             chat.text.send(ourNumberId, messageFrom, msgText);
           }
