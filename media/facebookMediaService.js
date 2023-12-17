@@ -7,6 +7,7 @@ const file = require('../utils/file')
 
 async function getMediaUrl(idMedia){
     try{
+        console.log("GetMediaURL funfou")
         let response = await axios({
             method: "GET",
             url:
@@ -25,6 +26,8 @@ async function getMediaUrl(idMedia){
 
 async function downloadMedia(url){
     try{
+        console.log("downloadMedia funfou")
+
         let response = await axios({
             method: "GET",
             url,
