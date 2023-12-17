@@ -3,6 +3,7 @@ const providers = require('./providers')
 const chat = require('./chat')
 const media = require('./media')
 const file = require('./utils/file')
+const time = require('./utils/converTime')
 
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -47,7 +48,7 @@ app.post("/webhook", async function (request, response) {
       if(messageType == "text"){
         let messageContent = request.body.entry[0].changes[0].value.messages[0].text.body;
         console.log(messageContent);
-        msgText = await chat.chatGptService.categorize(messageTimeStamp, messageContent)
+        msgText = await chat.chatGptService.categorize(time.epochToDate(messageTimeStamp), messageContent)
         chat.text.send(ourNumberId, messageFrom, msgText);
       } else if(messageType == "audio"){
         let mediaId = request.body.entry[0].changes[0].value.messages[0].audio.id;
