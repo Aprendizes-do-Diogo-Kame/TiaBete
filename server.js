@@ -50,6 +50,8 @@ app.post("/webhook", async function (request, response) {
         msgText = await chat.chatGptService.categorize(messageTimeStamp, messageContent)
         chat.text.send(ourNumberId, messageFrom, msgText);
       } else if(messageType == "audio"){
+        let mediaId = request.body.entry[0].changes[0].value.messages[0].audio.id;
+        let messageContent = await media.mediaService.getFileAndTranscribe(mediaId)
         msgText = await chat.chatGptService.categorize(messageTimeStamp, messageContent);
         chat.text.send(ourNumberId, messageFrom, msgText);
       } else {
