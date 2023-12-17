@@ -54,7 +54,7 @@ app.post("/webhook", async function (request, response) {
           const user = await mongodb.getUser(messageFrom)
           //if verifyUser send oi, usuário
           if(user) {
-            msgText = `Bem-vindo de volta, ${user.name}`;
+            msgText = `Bem-vindo de volta, ${user.name}!`;
             chat.text.send(ourNumberId, messageFrom, msgText);
           } else {
             const userJson = {
@@ -62,7 +62,20 @@ app.post("/webhook", async function (request, response) {
               phone: messageFrom
             }
             await mongodb.createUser(userJson);
-            msgText = `E ai, ${userJson.name}. Novo por aqui, né?`;
+            msgText = `Olá, ${userJson.name}! 
+            Sou a TiaBete, sua parceira para o controle do diabetes! Estou aqui para te ajudar a acompanhar sua alimentação, medicamentos, exercícios e glicose no sangue. 
+
+            Vamos juntos tornar o gerenciamento do diabetes mais fácil, barato e tranquilo. 
+
+            Você pode me dizer tudo o que pode impactar em seu índice glicêmico, como por exemplo:
+
+            . Alimentação ("Comi macarronada agora");
+            . Exercícios físicos ("Fiz 30 minutos de natação");
+            . Glicemia ("Minha glicose está em 100mg/dL);
+            . Medicamentos ("Tomei uma dose de insulina");
+
+            Você pode me mandar em *áudio* também, se for mais fácil.`
+
             chat.text.send(ourNumberId, messageFrom, msgText);
           }
           //else criar usuário e send onboarding
