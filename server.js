@@ -110,6 +110,7 @@ app.get('/chatgpt', async function(req, res) {
     let message = req.body.message 
     let messageTimestamp = req.body.messageTimestamp 
     let jsonResult = await chat.chatGptService.categorize(messageTimestamp,message)
+    console.log("Json de resultado", jsonResult)
     let formattedMessage = await feedbacks.getFeedbackMessage(jsonResult)
     res.send(formattedMessage)
   } catch (e){
