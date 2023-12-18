@@ -7,15 +7,39 @@ async function categorize(messageDate, userInput) {
   
   const finalMessage = `dada uma frase, quero que você categorize ela em FOOD, MEDICINE, EXERCISE, GLUCOSE, OTHER. Quero que a sua resposta seja apenas um json e nada mais, respeitando os seguintes formatos:
     
-  frase: "1702754968" "tomei café, comi pão de queijo"
+  frase: "1702754968" "tomei café, comi pão de queijo, macarronada, pao com ovo"
   resposta: 
   {
       category: "FOOD",
-      message: "tomei café, comi pão de queijo",
+      message: "tomei café, comi pão de queijo, macarronada, pao com ovo",
       date: "1702754968",
       items: [
               "café",
-              "pão de queijo"
+              "pão de queijo",
+              "macarronada",
+              "pao com ovo"
+            ]
+  }
+
+  frase: "1702754968" "tomei agua"
+  resposta: 
+  {
+      category: "FOOD",
+      message: "tomei agua",
+      date: "1702754968",
+      items: [
+              "agua"
+            ]
+  }
+
+  frase: "1702754968" "bebi vodka"
+  resposta: 
+  {
+      category: "FOOD",
+      message: "bebi vodka",
+      date: "1702754968",
+      items: [
+              "vodka"
             ]
   }
   
@@ -37,6 +61,16 @@ async function categorize(messageDate, userInput) {
       date: "1702834929",
       name: "caminhada",
       time: 0:30:0
+  }
+
+  frase: 1702834929 "fiz luta hoje"
+  resposta:
+  {
+      category: "EXERCISE",
+      message: "fiz luta hoje",
+      date: "1702834929",
+      name: "luta",
+      time: 0:0:0
   }
   
   frase: 1702754968 "minha glicose ta 103"
@@ -75,10 +109,11 @@ async function categorize(messageDate, userInput) {
   }
   
   Coisas relacionadas a glicose, como alto indice glicemico ou baixo indice glicemico, hipoglicemia ou hiperglicemia, entre outros relacionados a glicose devem tudo entrar na categoria GLUCOSE e campo glucose deve sempre receber 60 em caso de hipoglicemia, e 200 em caso de hiperglicemia.
+  Caso a frase dê a entender a ingestão de bebida  ou comida, deve entrar na categoria FOOD.
   Agora faça com este exemplo, Frase: "${messageDate}" "${userInput}"`
   const completion = await openai.chat.completions.create({
     messages: [{ role: "system", content: finalMessage }],
-    model: "gpt-3.5-turbo",
+    model: "gpt-4-1106-preview",
   });
 
   console.log(completion)
