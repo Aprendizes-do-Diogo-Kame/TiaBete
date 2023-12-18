@@ -113,7 +113,7 @@ async function categorize(messageDate, userInput) {
   Agora faça com este exemplo, Frase: "${messageDate}" "${userInput}"`
   const completion = await openai.chat.completions.create({
     messages: [{ role: "system", content: finalMessage }],
-    model: "gpt-4-1106-preview",
+    model: "gpt-3.5-turbo",
   });
 
   console.log(completion)
